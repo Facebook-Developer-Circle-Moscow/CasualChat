@@ -9,7 +9,7 @@ export default function ({ssr}: { ssr?: boolean }) {
   return (
       <Switch>
         <Route
-            path="/"
+            path='/'
             exact={true}
             component={() => <Home ssr={ssr}/>}
         />

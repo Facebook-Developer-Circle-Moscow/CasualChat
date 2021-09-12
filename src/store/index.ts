@@ -11,10 +11,10 @@ export const initialState: State = {
   router: RouterInitialState,
 };
 
-export const createStore = (initialState: State) => {
+export const createStore = (state: State) => {
   return createStoreRedux(
       reducers,
-      initialState,
+      state,
       process.env.NODE_ENV === 'development' ? (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__() : undefined
   );
 };

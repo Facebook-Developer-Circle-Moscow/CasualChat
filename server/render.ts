@@ -31,7 +31,7 @@ import {Metadata} from 'models/metadata';
 
 import MetadataRendered from './metadata';
 
-const MetadataExtractorRegExp = /<code(?:.*?)data-extract=['"]true['"](?:.*?)>(?<metadata>.*?)<\/code>/ig;
+const MetadataExtractorRegExp = /<code.*?data-extract=['"]true['"].*?>(?<metadata>.*?)<\/code>/ig;
 
 function getFile(path: string): string {
   return FS.existsSync(path) ? FS.readFileSync(path, 'utf8') : '';

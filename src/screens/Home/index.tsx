@@ -7,7 +7,7 @@ import App from 'components/App';
 const Context = React.createContext({
   title: 'Pet project from Casual Chat video.',
   h1: 'CasualChat'
-} as Metadata);
+});
 
 export default function ({ssr}: { ssr?: boolean }) {
   return (

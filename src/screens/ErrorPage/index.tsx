@@ -7,7 +7,7 @@ import App from 'components/App';
 const Context = React.createContext({
   title: 'Page Not Found',
   h1: 'Page Not Found'
-} as Metadata);
+});
 
 export default function ({ssr}: { ssr?: boolean }) {
   return (

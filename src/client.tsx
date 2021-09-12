@@ -1,3 +1,5 @@
+declare const mode: string;
+
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
@@ -15,7 +17,7 @@ import './scss/index.scss';
 ReactDOM.hydrate(
     (
         <Provider store={store}>
-          <BrowserRouter>
+          <BrowserRouter basename={mode === 'deployment' ? '/CasualChat' : '/'}>
             <Router/>
           </BrowserRouter>
         </Provider>

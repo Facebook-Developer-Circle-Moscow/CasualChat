@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
@@ -13,6 +14,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
+const mkdirp = require('mkdirp');
 
 const Targets = {
   CLIENT: 'client',
@@ -31,17 +33,25 @@ const getTarget = (target) => {
 const getOutputPath = (target) => {
   switch (target) {
     case Targets.CLIENT:
-      return path.resolve(__dirname, `../build/static`);
+      return path.resolve(__dirname, '../build/static');
     case Targets.SERVER:
-      return path.resolve(__dirname, `../build/server`);
+      return path.resolve(__dirname, '../build/server');
   }
 };
 
-function getPublicPath(target) {
-  switch (target) {
-    case Targets.CLIENT:
-    case Targets.SERVER:
-      return '/static/';
+function getPublicPath(target, mode) {
+  if (mode === 'deployment') {
+    switch (target) {
+      case Targets.CLIENT:
+      case Targets.SERVER:
+        return 'https://facebook-developer-circle-moscow.github.io/CasualChat/static/';
+    }
+  } else {
+    switch (target) {
+      case Targets.CLIENT:
+      case Targets.SERVER:
+        return '/static/';
+    }
   }
 }
 
@@ -61,8 +71,9 @@ const getEntry = (target) => {
 };
 
 module.exports = (target, mode) => {
-  const isDevelopment = mode === 'development';
-  const isProduction = mode === 'production';
+  const isDeployment = mode === 'deployment';
+  const isDevelopment = !isDeployment && mode === 'development';
+  const isProduction = isDeployment || mode === 'production';
 
   const isClient = target === Targets.CLIENT;
   const isServer = target === Targets.SERVER;
@@ -110,7 +121,7 @@ module.exports = (target, mode) => {
     target: getTarget(target),
     externals: isServer ? [
       nodeExternals(),
-      path.resolve(__dirname, `../build`)
+      path.resolve(__dirname, '../build')
     ] : [],
     cache: isDevelopment,
     bail: isProduction,
@@ -125,7 +136,7 @@ module.exports = (target, mode) => {
     },
     output: {
       path: getOutputPath(target),
-      publicPath: getPublicPath(target),
+      publicPath: getPublicPath(target, mode),
 
       filename: '[name].js',
       chunkFilename: '[name].js',
@@ -233,7 +244,7 @@ module.exports = (target, mode) => {
       ]
     },
     plugins: [
-      new webpack.ProgressPlugin(),
+      ...(!isDeployment ? [new webpack.ProgressPlugin()] : []),
       ...(
           isClient ? [
             new HtmlWebpackPlugin({
@@ -265,10 +276,35 @@ module.exports = (target, mode) => {
         patterns: [
           {
             from: path.resolve(__dirname, '../public/favicons'),
-            to: path.resolve(__dirname, `../build/favicons`)
+            to: path.resolve(__dirname, '../build/favicons')
           }
         ]
-      })
+      }),
+      {
+        apply: (compiler) => {
+          if (isDeployment && isServer) {
+            compiler.hooks.afterEmit.tapPromise('done', () => {
+              const {ssr} = require('../scripts/ssr');
+
+              const urls = ['/', '*'];
+
+              const STATIC = path.resolve(__dirname + '/../build');
+
+              return Promise.all(urls.map((url) => new Promise((resolve) => {
+                ssr(url).then((html) => {
+                  const outFile = url !== '*' ? path.join(STATIC, url, 'index.html') : path.join(STATIC, '/404.html');
+
+                  mkdirp.sync(path.dirname(outFile));
+
+                  fs.writeFileSync(outFile, html);
+
+                  resolve();
+                }).catch(resolve);
+              })));
+            });
+          }
+        }
+      }
     ],
     optimization: {
       minimize: isClient && isProduction,
@@ -290,7 +326,7 @@ module.exports = (target, mode) => {
       }
     },
     performance: {
-      hints: isProduction ? 'warning' : false
+      hints: !isDeployment && isProduction ? 'warning' : false
     }
   };
 };

@@ -12,7 +12,8 @@
       "jsx": true,
       "experimentalObjectRestSpread": true
     },
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": 2018
   },
   "plugins": [
     "react"

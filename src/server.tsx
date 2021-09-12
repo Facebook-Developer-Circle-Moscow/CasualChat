@@ -4,6 +4,6 @@ import Router from 'routers/index';
 
 export default class extends React.Component {
   public render() {
-    return <Router ssr/>;
+    return <Router ssr={true}/>;
   }
 }

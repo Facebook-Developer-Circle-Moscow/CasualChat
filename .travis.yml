@@ -7,7 +7,8 @@ install:
 
 script:
   - yarn run lint
-  - yarn run build:production
+  - webpack --config ./config/webpack.deployment.client.config.js --no-stats
+  - webpack --config ./config/webpack.deployment.server.config.js --no-stats
 
 after_success:
   - yarn install -g codeclimate-test-reporter
