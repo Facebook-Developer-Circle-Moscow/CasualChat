@@ -1,0 +1,26 @@
+{
+  "apps": [
+    {
+      "name": "CasualChat",
+      "script": "./scripts/server.ts",
+      "node_args": [],
+      "instances": "1",
+      "exec_mode": "cluster",
+      "watch": true,
+      "cwd": ".",
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "ports": {
+        "main": "7600",
+        "http": "7601",
+        "http2": "7602"
+      },
+      "error_file": "err.log",
+      "out_file": "out.log",
+      "merge_logs": true,
+      "log_type": "json",
+      "log_date_format": "YYYY-MM-DD HH:mm Z"
+    }
+  ]
+}

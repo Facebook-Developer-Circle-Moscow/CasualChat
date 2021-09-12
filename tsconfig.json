@@ -1,0 +1,51 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "resolveJsonModule": true,
+    "target": "es5",
+    "jsx": "react",
+    "lib": [
+      "webworker",
+      "es6",
+      "dom"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "actions/*": [
+        "src/actions/*"
+      ],
+      "components/*": [
+        "src/components/*"
+      ],
+      "models/*": [
+        "src/models/*"
+      ],
+      "reducers/*": [
+        "src/reducers/*"
+      ],
+      "routers/*": [
+        "src/routers/*"
+      ],
+      "screens/*": [
+        "src/screens/*"
+      ],
+      "scss/*": [
+        "src/scss/*"
+      ],
+      "store/*": [
+        "src/store/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

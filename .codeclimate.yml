@@ -1,0 +1,20 @@
+engines:
+  editorconfig:
+    enabled: true
+  eslint:
+    enabled: true
+  markdownlint:
+    enabled: true
+  nodesecurity:
+    enabled: true
+  tslint:
+    enabled: true
+    config: tslint.json
+ratings:
+  paths:
+    - config/**
+    - public/**
+    - scripts/**
+    - src/**
+exclude_patterns:
+  - .github/**

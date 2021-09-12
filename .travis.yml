@@ -1,0 +1,27 @@
+language: node_js
+
+node_js: '16'
+
+install:
+  - yarn install
+
+script:
+  - yarn run lint
+  - yarn run build:production
+
+after_success:
+  - yarn install -g codeclimate-test-reporter
+  - codeclimate-test-reporter < coverage/lcov.info
+
+deploy:
+  local_dir: ./build
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: false
+  on:
+    branch: main
+
+branches:
+  only:
+    - main

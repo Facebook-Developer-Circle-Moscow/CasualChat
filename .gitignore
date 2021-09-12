@@ -1,0 +1,11 @@
+.idea
+.DS_Store
+
+node_modules
+
+build
+
+*.crt
+*.csr
+*.key
+*.log
