@@ -1,14 +1,14 @@
 import {createStore as createStoreRedux} from 'redux';
 
 import {reducers} from 'reducers/index';
-import {RouterState, initialState as RouterInitialState} from 'reducers/router';
+import {SessionState, initialState as SessionInitialState} from 'reducers/session';
 
 export type State = {
-  router: RouterState;
+  session: SessionState;
 };
 
 export const initialState: State = {
-  router: RouterInitialState,
+  session: SessionInitialState,
 };
 
 export const createStore = (state: State) => {

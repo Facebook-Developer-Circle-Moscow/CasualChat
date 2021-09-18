@@ -8,14 +8,12 @@ import {Props} from 'routers/index';
 
 import App from 'components/App';
 
-import cat from 'images/cat.gif';
-
 const Context = React.createContext({
-  title: 'Page Not Found',
-  h1: 'Page Not Found'
+  title: 'Pet project from Casual Chat video.',
+  h1: 'Users'
 });
 
-const block = bem('error');
+const block = bem('users');
 
 import './index.scss';
 
@@ -23,9 +21,10 @@ export default ({ssr}: Props) => {
   return (
       <Context.Consumer>
         {(metadata: Metadata) => (
-            <App ssr={ssr} metadata={{...metadata, h1: null}} page={block()}>
-              {cat ? <img className={block('cat')} src={cat} /> : null}
-              <h1 className={block('title')}>{metadata.h1}</h1>
+            <App ssr={ssr} metadata={{...metadata, h1: null}} page={block()} className={block()}>
+              <div className={block('form')}>
+                <h1 className={block('title')}>{metadata.h1}</h1>
+              </div>
             </App>
         )}
       </Context.Consumer>

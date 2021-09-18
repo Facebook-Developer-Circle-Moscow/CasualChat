@@ -9,3 +9,7 @@ build
 *.csr
 *.key
 *.log
+
+*.secret.json
+
+docker-mongodb.yml

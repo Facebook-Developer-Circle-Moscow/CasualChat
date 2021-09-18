@@ -1,0 +1,17 @@
+.error__cat {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  max-width: 300px;
+  width: 100%;
+  transform: translate(-50%, -50%);
+}
+
+.error__title {
+  color: #464646;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: 100px 0 0 0;
+  transform: translate(-50%, -50%);
+}

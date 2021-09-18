@@ -1,0 +1,74 @@
+.login__form {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #f2f2f2;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+
+.login__title {
+  margin: 0;
+  color: #333333;
+}
+
+.login__icons {
+  margin: 5px -5px 0 -5px;
+}
+
+.login__icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid #333333;
+  border-radius: 50%;
+  margin: 0 5px;
+  background: #f2f2f2;
+  transition: .2s background;
+}
+
+.login__icon:hover {
+  background: #333333;
+}
+
+.login__icon:before {
+  display: inline-block;
+  text-align: center;
+  color: #333333;
+  font-family: 'Font Awesome';
+  font-size: 20px;
+  line-height: 40px;
+  transition: .2s color;
+}
+
+.login__icon:hover:before {
+  color: #f2f2f2;
+}
+
+.login__icon_facebook:before {
+  content: '\f09a';
+}
+
+.login__icon_twitter:before {
+  content: '\f099';
+}
+
+.login__icon_google:before {
+  content: '\f0d5';
+}
+
+.login__icon_yandex:before {
+  content: '\f414';
+}
+
+.login__icon_vk:before {
+  content: '\f189';
+}
+
+.login__icon_github:before {
+  content: '\f09b';
+}

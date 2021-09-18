@@ -39,11 +39,18 @@
       ],
       "store/*": [
         "src/store/*"
+      ],
+      "images/*": [
+        "src/images/*"
+      ],
+      "__generated__/*": [
+        "src/__generated__/*"
       ]
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "typings/**/*"
   ],
   "exclude": [
     "node_modules"

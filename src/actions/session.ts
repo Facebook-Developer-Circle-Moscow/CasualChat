@@ -1,5 +1,5 @@
 export enum ActionTypes {
-  UPDATE = '[ROUTER] UPDATE'
+  UPDATE = '[SESSION] UPDATE'
 }
 
 export interface Update {

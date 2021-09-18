@@ -59,7 +59,12 @@ const getEntry = (target) => {
   switch (target) {
     case Targets.CLIENT:
       return {
-        index: './src/client.tsx'
+        index: './src/client.tsx',
+
+        inline: [
+          './src/scss/inline.scss',
+          './src/inline.ts'
+        ]
       };
     case Targets.SERVER:
       return {
@@ -104,7 +109,6 @@ module.exports = (target, mode) => {
   const image = {
     loader: ImageMinimizerPlugin.loader,
     options: {
-      severityError: 'warning', // Ignore errors on corrupted images
       minimizerOptions: {
         plugins: [
           ['gifsicle', {interlaced: true}],
@@ -128,7 +132,8 @@ module.exports = (target, mode) => {
     devtool: isDevelopment ? 'source-map' : undefined,
     entry: getEntry(target),
     stats: {
-      children: false
+      children: true,
+      errorDetails: true
     },
     node: {
       __dirname: false,
@@ -173,7 +178,6 @@ module.exports = (target, mode) => {
         {
           test: /\.css$/,
           use: [
-            'cache-loader',
             MiniCssExtractPlugin.loader,
             css,
             postcss
@@ -182,7 +186,6 @@ module.exports = (target, mode) => {
         {
           test: /\.scss$/,
           use: [
-            'cache-loader',
             MiniCssExtractPlugin.loader,
             css,
             postcss,
@@ -201,9 +204,8 @@ module.exports = (target, mode) => {
           ]
         },
         {
-          test: /\.(jpe?g|png|gif)$/,
+          test: /images\/.*\.(jpe?g|png|gif)$/,
           use: [
-            'cache-loader',
             {
               loader: 'url-loader',
               options: {
@@ -216,7 +218,6 @@ module.exports = (target, mode) => {
         {
           test: /\.svg$/,
           use: [
-            'cache-loader',
             {
               loader: 'svg-sprite-loader',
               options: {
@@ -226,20 +227,6 @@ module.exports = (target, mode) => {
             image
           ],
           exclude: /fonts\/.*\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/
-        },
-        {
-          test: /fonts\/.*\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          use: [
-            'cache-loader',
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[ext]',
-                outputPath: 'fonts/',
-                esModule: false,
-              }
-            }
-          ]
         }
       ]
     },

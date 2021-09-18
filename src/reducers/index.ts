@@ -1,7 +1,7 @@
 import {combineReducers} from 'redux';
 
-import {router} from './router';
+import {session} from './session';
 
 export const reducers = combineReducers({
-  router,
+  session,
 });

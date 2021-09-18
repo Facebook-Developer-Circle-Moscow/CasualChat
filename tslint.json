@@ -13,7 +13,8 @@
     "no-submodule-imports": false,
     "no-implicit-dependencies": false,
     "no-empty-interface": false,
-    "jsx-no-lambda": false
+    "jsx-no-lambda": false,
+    "no-console": false
   },
   "rulesDirectory": []
 }

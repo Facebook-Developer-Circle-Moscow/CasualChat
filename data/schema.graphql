@@ -1,0 +1,15 @@
+type User {
+    id: ID!
+    displayName: String!
+    facebook: String
+    google: String
+    twitter: String
+    yandex: String
+    vk: String
+    github: String
+}
+
+type Query {
+    users: [User!]!
+    user: User!
+}

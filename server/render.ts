@@ -4,6 +4,8 @@ import * as FS from 'fs';
 import * as PATH from 'path';
 import {minify as MINIFY_HTML} from 'html-minifier';
 
+import {User} from '../src/models/user';
+
 // Get static path
 const STATIC = PATH.resolve(__dirname + '/../build');
 
@@ -11,6 +13,12 @@ const HTML = getFile(PATH.resolve(STATIC, 'static/index.html'));
 const INLINE_STYLE = getFile(PATH.resolve(STATIC, 'static/inline.css'));
 const INLINE_SCRIPT = getFile(PATH.resolve(STATIC, 'static/inline.js'));
 const SVG = getFile(PATH.resolve(STATIC, 'static/sprite.svg'));
+
+require.extensions['.gif'] = () => '';
+require.extensions['.png'] = () => '';
+require.extensions['.jpg'] = () => '';
+require.extensions['.jpeg'] = () => '';
+require.extensions['.scss'] = () => '';
 
 import {default as App} from '../src/server';
 import {initialState} from '../src/store';
@@ -25,7 +33,7 @@ import {renderToStringAsync} from 'react-async-ssr';
 import {StaticRouter} from 'react-router-dom';
 import {createStore, Store} from 'redux';
 import {Provider} from 'react-redux';
-import * as core from "express-serve-static-core";
+import * as core from 'express-serve-static-core';
 import {StaticRouterContext} from 'react-router';
 import {Metadata} from 'models/metadata';
 
@@ -37,7 +45,17 @@ function getFile(path: string): string {
   return FS.existsSync(path) ? FS.readFileSync(path, 'utf8') : '';
 }
 
-async function render({ url, csrf}: {url: string, csrf: string}): Promise<{
+async function render(
+    {
+      url,
+      csrf,
+      user
+    }: {
+      url: string,
+      csrf: string,
+      user: User
+    }
+): Promise<{
   result: string,
   store: Store,
   context: StaticRouterContext,
@@ -47,9 +65,10 @@ async function render({ url, csrf}: {url: string, csrf: string}): Promise<{
 
   const store = createStore((state) => JSON.parse(JSON.stringify(state)), {
     ...initialState,
-    router: {
-      ...initialState.router,
+    session: {
+      ...initialState.session,
       csrf,
+      user,
       location: url,
       modified: (new Date()).toISOString(),
     }
@@ -85,7 +104,8 @@ export default (APP: core.Express) => {
       // Server side render
       const {result, store, context, metadata} = await render({
         csrf: req.csrfToken(),
-        url: req.url.replace('index.html', '')
+        url: req.url.replace('index.html', ''),
+        user: req.user as User
       });
 
       if (context.url) {
@@ -116,8 +136,6 @@ export default (APP: core.Express) => {
         res.send(html);
       }
     } catch (e) {
-      console.log(e);
-
       res.writeHead(500);
       res.end();
     }
