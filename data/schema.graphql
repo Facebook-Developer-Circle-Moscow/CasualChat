@@ -1,12 +1,48 @@
+type Facebook {
+    id: ID!
+    access: String
+    refresh: String
+}
+
+type Google {
+    id: ID!
+    token: String
+    secret: String
+}
+
+type Twitter {
+    id: ID!
+    token: String
+    secret: String
+}
+
+type Yandex {
+    id: ID!
+    access: String
+    refresh: String
+}
+
+type Vk {
+    id: ID!
+    access: String
+    refresh: String
+}
+
+type Github {
+    id: ID!
+    access: String
+    refresh: String
+}
+
 type User {
     id: ID!
-    displayName: String!
-    facebook: String
-    google: String
-    twitter: String
-    yandex: String
-    vk: String
-    github: String
+    displayName: String
+    facebook: Facebook
+    google: Google
+    twitter: Twitter
+    yandex: Yandex
+    vk: Vk
+    github: Github
 }
 
 type Query {

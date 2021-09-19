@@ -1,6 +1,6 @@
-import * as React from 'react';
+declare const CONFIG: any;
 
-import * as CONFIG from '../../../config/config.secret.json';
+import * as React from 'react';
 
 import {block as bem} from 'bem-cn';
 

@@ -20,6 +20,17 @@ require.extensions['.jpg'] = () => '';
 require.extensions['.jpeg'] = () => '';
 require.extensions['.scss'] = () => '';
 
+import * as relay from 'relay-runtime';
+
+// @ts-ignore
+relay.graphql = (query: string) => {
+  return query;
+};
+
+import * as CONFIG from '../config/config.secret.json';
+
+(global as any).CONFIG = CONFIG;
+
 import {default as App} from '../src/server';
 import {initialState} from '../src/store';
 

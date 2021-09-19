@@ -1,8 +1,7 @@
 import * as FS from 'fs';
 import * as PATH from 'path';
-import * as NET from 'net';
 import * as HTTP from 'http';
-import * as SPDY from 'spdy';
+import * as HTTPS from 'https';
 import * as EXPRESS from 'express';
 import * as COOKIE_PARSER from 'cookie-parser';
 import * as BODY_PARSER from 'body-parser';
@@ -85,6 +84,9 @@ if (certificates) {
 
 import Renderer from './server/render';
 import Passport from './server/passport';
+import Graphql from './server/graphql';
+
+Graphql(APP);
 
 Passport(APP);
 
@@ -103,21 +105,7 @@ Renderer(APP);
 APP.set('port', PORTS.main);
 
 if (certificates) {
-  NET.createServer((conn: NET.Socket) => {
-    conn.once('data', (buf) => {
-      const proxy = NET.createConnection(
-          buf[0] === 22 ? PORTS.http2 : PORTS.http,
-          () => {
-            proxy.write(buf);
-            conn.pipe(proxy).pipe(conn);
-          }
-      );
-    });
-  }).listen(PORTS.main);
-
-  HTTP.createServer(APP).listen(PORTS.http);
-
-  SPDY.createServer({
+  HTTPS.createServer({
     key: FS.readFileSync(certificates.key),
     cert: FS.readFileSync(certificates.cert)
   }, APP).listen(PORTS.http2);

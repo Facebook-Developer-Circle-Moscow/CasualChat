@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const PACKAGE = require('../package.json');
+const CONFIG = require('./config.secret.json');
 
 const TerserPlugin = require('terser-webpack-plugin');
 
@@ -227,6 +228,22 @@ module.exports = (target, mode) => {
             image
           ],
           exclude: /fonts\/.*\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/
+        },
+        {
+          test: /\.(js|jsx|ts|tsx)$/,
+          loader: 'string-replace-loader',
+          options: {
+            search: 'import {graphql} from \'relay-runtime\';',
+            replace: '',
+          }
+        },
+        {
+          test: /\.(js|jsx|ts|tsx)$/,
+          loader: 'string-replace-loader',
+          options: {
+            search: 'graphql`',
+            replace: '`',
+          }
         }
       ]
     },
@@ -249,8 +266,8 @@ module.exports = (target, mode) => {
         version: JSON.stringify(PACKAGE.version),
         target: JSON.stringify(target),
         mode: JSON.stringify(mode),
-        'process.env.NODE_ENV': JSON.stringify(
-            mode === 'deployment' ? 'production' : mode),
+        'process.env.NODE_ENV': JSON.stringify(mode === 'deployment' ? 'production' : mode),
+        CONFIG: JSON.stringify(CONFIG),
       }),
       new SpriteLoaderPlugin({
         plainSprite: true

@@ -4,6 +4,7 @@
 node_modules
 
 build
+src/__generated__
 
 *.crt
 *.csr

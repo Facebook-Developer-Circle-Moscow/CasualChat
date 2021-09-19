@@ -43,6 +43,9 @@
       "images/*": [
         "src/images/*"
       ],
+      "relay/*": [
+        "src/relay/*"
+      ],
       "__generated__/*": [
         "src/__generated__/*"
       ]

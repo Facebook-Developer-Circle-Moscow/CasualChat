@@ -9,7 +9,7 @@
       "watch": true,
       "cwd": ".",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "development"
       },
       "ports": {
         "main": "7600",
